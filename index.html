@@ -44,11 +44,11 @@
                 const tensorData = convertToTensor(data);
                 const {inputs, labels} = tensorData;
 
-                console.log(labels)
-
                 await trainModel(model, inputs, labels);
 
                 console.log('Done Training');
+
+                console.log(model)
 
                 testModel(model, data, tensorData);
         }
@@ -62,6 +62,8 @@
 
             // Add an output layer
             model.add(tf.layers.dense({units: 1, useBias: true}));
+
+            model.add(tf.layers.dense({units: 1, activation: 'sigmoid'}));
 
             return model;
         }
@@ -109,7 +111,7 @@
             });
 
             const batchSize = 32;
-            const epochs = 50;
+            const epochs = 500;
 
             return await model.fit(inputs, labels, {
                 batchSize,
